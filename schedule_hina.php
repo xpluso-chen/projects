@@ -524,6 +524,7 @@ include_once('_ary_mileageLog.php');
                         <input type="text" class="form-control" placeholder="請假人員" v-model="pick_commuting_detail.show_name" disabled>
                       </div>
 
+
                       <div class="input-group mb-2">
                           <span class="input-group-text" id="basic-addon1">請假日期*</span>
                           <input name="commuting_date"
@@ -538,7 +539,8 @@ include_once('_ary_mileageLog.php');
                           <input name="start_time"
                                  type="time"
                                  class="form-control" placeholder="開始時間"
-                                 v-model="pick_commuting_detail.startTime" 
+                                 v-model="pick_commuting_detail.startTime"
+                                 @input="calculateHours" 
                                  value="" >
                         </div>
 
@@ -547,7 +549,8 @@ include_once('_ary_mileageLog.php');
                           <input name="end_time"
                                  type="time"
                                  class="form-control" placeholder="結束時間"
-                                 v-model="pick_commuting_detail.endTime" 
+                                 v-model="pick_commuting_detail.endTime"
+                                 @input="calculateHours" 
                                  value="" >
                         </div>
 
@@ -555,7 +558,7 @@ include_once('_ary_mileageLog.php');
                           <span class="input-group-text" id="basic-addon1">備註</span>
                           <textarea name="memo" type="text" class="form-control" placeholder="備註(可換行)" v-model="pick_commuting_detail.memo"></textarea>
                         </div>
-
+                        <p id="result">{{ resultMessage }}</p>
 
                     </div>
                     </form>
@@ -719,7 +722,12 @@ include_once('_ary_mileageLog.php');
                 location:'',
                 contact:'',
                 mileage:'',
-                type:false
+                type:false,
+                pick_commuting_detail: {
+                startTime: '', // 開始時間
+                endTime: ''    // 結束時間
+                },
+                resultMessage: '' // 結果訊息
               },
               computed: {
                   pick_commutings: function () {
@@ -827,9 +835,43 @@ include_once('_ary_mileageLog.php');
 
                         // window.location.assign('schedule.php?exe=delCommLog&type='+type+'&val='+val)
                     }
+                },
+                // 新增計算時間的方法
+                calculateHours() {
+                console.log('有觸發計算');
+                const startTime = this.pick_commuting_detail.startTime;
+                const endTime = this.pick_commuting_detail.endTime;
+
+                if (!startTime || !endTime) {
+                    this.resultMessage = "請輸入完整的時間！";
+                    return;
                 }
+
+                // 解析時間
+                const [startHour, startMinute] = startTime.split(":").map(Number);
+                const [endHour, endMinute] = endTime.split(":").map(Number);
+
+                const startDate = new Date();
+                startDate.setHours(startHour, startMinute, 0);
+
+                const endDate = new Date();
+                endDate.setHours(endHour, endMinute, 0);
+
+                // 計算時間差（毫秒）
+                const timeDiff = endDate - startDate;
+
+                if (timeDiff < 0) {
+                    this.resultMessage = "結束時間不能早於開始時間！";
+                    return;
+                }
+
+                // 轉換為小時
+                const totalHours = timeDiff / (1000 * 60 * 60);
+                this.resultMessage = `共計時數: ${totalHours.toFixed(1)} 小時`;
+                }
+                
               }
-            })
+            });
         </script>
     </body>
 </html>
