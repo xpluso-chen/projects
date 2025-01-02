@@ -524,7 +524,22 @@ include_once('_ary_mileageLog.php');
                         <input type="text" class="form-control" placeholder="請假人員" v-model="pick_commuting_detail.show_name" disabled>
                       </div>
 
-                      
+                      <div class="input-group mb-2">
+                          <span class="input-group-text" id="basic-addon1">拜訪日期*</span>
+                          <input name="commuting_date"
+                                 type="date"
+                                 class="form-control" placeholder="拜訪日期"
+                                 v-model="pick_commuting_detail.date" >
+                        </div>
+
+                      <div class="input-group mb-2">
+                          <span class="input-group-text" id="basic-addon1">拜訪時間*</span>
+                          <input name="commuting_time"
+                                 type="time"
+                                 class="form-control" placeholder="拜訪時間"
+                                 v-model="pick_commuting_detail.time" 
+                                 value="<?=date('H:m',time())?>" >
+                        </div>
 
 
 
