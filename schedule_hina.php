@@ -351,27 +351,28 @@ include_once('_ary_mileageLog.php');
                 </table>
             </div>            
 
-            <div class="p-2" style="height: 8vh;">
+            <div class="p-2" style="height: 8vh;display:flex;gap:0.5rem;justify-content: center;">
+                          
                 <button type="button"
-                        class="btn btn-outline-primary"
+                        class="btn btn-outline-danger mr-1"
                         data-bs-toggle="modal"
                         data-bs-target="#setCommutingModal"
                         style="float:right">
-                  新增出勤
+                  請假申請
                 </button>
                 <button type="button"
-                        class="btn btn-outline-success pr-1"
+                        class="btn btn-outline-success mr-1"
                         data-bs-toggle="modal"
                         data-bs-target="#setCommutingModal"
                         style="float:right">
                   新增加班
                 </button>
                 <button type="button"
-                        class="btn btn-outline-danger pr-1"
+                        class="btn btn-outline-primary"
                         data-bs-toggle="modal"
                         data-bs-target="#setCommutingModal"
                         style="float:right">
-                  請假申請
+                  新增出勤
                 </button>
             </div>
 
