@@ -530,13 +530,15 @@ include_once('_ary_mileageLog.php');
                         <span class="visually-hidden">Toggle Dropdown</span>
                         </button>
                         <ul class="dropdown-menu">
-                          <li class="p-2" @click="setLeave('選項')">選項</li>
+                          <li class="p-2" @click="setLeave('特休')">特休</li>
                           <li><hr class="dropdown-divider"></li>
-                          <li class="p-2" @click="setLeave('選項2')">選項2</li>
+                          <li class="p-2" @click="setLeave('事假')">事假</li>
                           <li><hr class="dropdown-divider"></li>
-                          <li class="p-2" @click="setLeave('選項2')">選項2</li>
+                          <li class="p-2" @click="setLeave('病假')">病假</li>
                           <li><hr class="dropdown-divider"></li>
-                          <li class="p-2" @click="setLeave('選項2')">選項2</li>
+                          <li class="p-2" @click="setLeave('補休')">補休</li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li class="p-2" @click="setLeave('其他')">其他</li>
                         </ul>
                         <input name="contact" type="text" class="form-control" placeholder="假別" v-model="leave" required>
                      </div>
