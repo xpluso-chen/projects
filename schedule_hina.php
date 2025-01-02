@@ -523,7 +523,25 @@ include_once('_ary_mileageLog.php');
                         <span class="input-group-text" id="basic-addon1">請假人員</span>
                         <input type="text" class="form-control" placeholder="請假人員" v-model="pick_commuting_detail.show_name" disabled>
                       </div>
-
+                      <!--  -->
+                      <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon1">假別*</span>
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li class="p-2" @click="setLeave('選項')">選項</li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li class="p-2" @click="setLeave('選項2')">選項2</li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li class="p-2" @click="setLeave('選項2')">選項2</li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li class="p-2" @click="setLeave('選項2')">選項2</li>
+                        </ul>
+                        <input name="contact" type="text" class="form-control" placeholder="假別" v-model="leave" required>
+                     </div>
+                  
+                      <!--  -->
 
                       <div class="input-group mb-2">
                           <span class="input-group-text" id="basic-addon1">請假日期*</span>
@@ -836,6 +854,10 @@ include_once('_ary_mileageLog.php');
                         // window.location.assign('schedule.php?exe=delCommLog&type='+type+'&val='+val)
                     }
                 },
+                setLeave(e) {
+                this.leave = e; // 假別
+                },
+
                 // 新增計算時間的方法
                 calculateHours() {
                 console.log('有觸發計算');
