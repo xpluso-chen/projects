@@ -534,19 +534,19 @@ include_once('_ary_mileageLog.php');
 
                       <div class="input-group mb-2">
                           <span class="input-group-text" id="basic-addon1">開始時間*</span>
-                          <input name="commuting_time"
+                          <input name="start_time"
                                  type="time"
                                  class="form-control" placeholder="開始時間"
-                                 v-model="pick_commuting_detail.time" 
+                                 v-model="pick_commuting_detail.startTime" 
                                  value="<?=date('H:m',time())?>" >
                         </div>
 
                         <div class="input-group mb-2">
                           <span class="input-group-text" id="basic-addon1">結束時間*</span>
-                          <input name="commuting_time"
+                          <input name="end_time"
                                  type="time"
                                  class="form-control" placeholder="結束時間"
-                                 v-model="pick_commuting_detail.time" 
+                                 v-model="pick_commuting_detail.endTime" 
                                  value="<?=date('H:m',time())?>" >
                         </div>
 
