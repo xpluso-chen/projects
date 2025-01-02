@@ -354,29 +354,26 @@ include_once('_ary_mileageLog.php');
             <div class="p-2" style="height: 8vh;display:flex;gap:0.5rem;justify-content: center;">
                           
                 <button type="button"
-                        class="btn btn-outline-danger mr-1"
+                        class="btn btn-outline-danger"
                         data-bs-toggle="modal"
-                        data-bs-target="#setCommutingModal"
-                        style="float:right">
+                        data-bs-target="#setCommutingModal">
                   請假申請
                 </button>
                 <button type="button"
-                        class="btn btn-outline-success mr-1"
+                        class="btn btn-outline-success"
                         data-bs-toggle="modal"
-                        data-bs-target="#setCommutingModal"
-                        style="float:right">
+                        data-bs-target="#setCommutingModal">
                   新增加班
                 </button>
                 <button type="button"
                         class="btn btn-outline-primary"
                         data-bs-toggle="modal"
-                        data-bs-target="#setCommutingModal"
-                        style="float:right">
+                        data-bs-target="#setCommutingModal">
                   新增出勤
                 </button>
             </div>
 
-            <!-- Create Modal -->
+            <!-- Create Modal :新增出勤紀錄-->
             <div class="modal fade "
                id="setCommutingModal" tabindex="-1" aria-labelledby="setCommutingModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
@@ -508,6 +505,8 @@ include_once('_ary_mileageLog.php');
                 </div>
               </div>
             </div>
+            <!-- Create Modal:新增請假紀錄 -->
+            
 
             <!-- Update Modal -->
             <div class="modal fade "
