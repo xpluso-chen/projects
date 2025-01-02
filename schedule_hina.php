@@ -362,7 +362,7 @@ include_once('_ary_mileageLog.php');
                 <button type="button"
                         class="btn btn-outline-success"
                         data-bs-toggle="modal"
-                        data-bs-target="#setCommutingModal">
+                        data-bs-target="#setCommutingModal2">
                   新增加班
                 </button>
                 <button type="button"
@@ -426,9 +426,8 @@ include_once('_ary_mileageLog.php');
                               <a style="float:right;color: red;" @click="delCommLog('location', location[1], $event)" >刪</a>
                           </div>
                         </li>
-<!--                           <li v-for=" location in pick_location ">
-                            <a class="dropdown-item" href="#"
-                                     @click="setLocation(location[1])">{{location[0]}}-{{location[1]}}</a>
+<!--  <li v-for=" location in pick_location ">
+                            <a class="dropdown-item" href="#"@click="setLocation(location[1])">{{location[0]}}-{{location[1]}}</a>
                           </li> -->
                       </ul>
                       <input name="location" type="text" class="form-control"
@@ -506,7 +505,35 @@ include_once('_ary_mileageLog.php');
               </div>
             </div>
             <!-- Create Modal:新增請假紀錄 -->
-            
+            <div class="modal fade "
+               id="setCommutingModal2" tabindex="-1" aria-labelledby="setCommutingModalLabel2" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="setCommutingModalLabel2">新增請假記錄</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <form id="create-project" method="POST" action="">
+                    <input type="hidden" name="exe" value="setCommuting">
+                    <input type="hidden" name="user_uuid" value="<?=$_SESSION['userUuid']?>">
+
+                    <div class="modal-body">
+
+                      <div class="input-group mb-2">
+                        <span class="input-group-text" id="basic-addon1">請假人員</span>
+                        <input type="text" class="form-control" placeholder="請假人員" v-model="pick_commuting_detail.show_name" disabled>
+                      </div>
+
+                      
+
+
+
+                    </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+                    
 
             <!-- Update Modal -->
             <div class="modal fade "
