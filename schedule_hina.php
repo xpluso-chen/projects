@@ -528,19 +528,32 @@ include_once('_ary_mileageLog.php');
                           <span class="input-group-text" id="basic-addon1">拜訪日期*</span>
                           <input name="commuting_date"
                                  type="date"
-                                 class="form-control" placeholder="拜訪日期"
+                                 class="form-control" placeholder="請假日期"
                                  v-model="pick_commuting_detail.date" >
                         </div>
 
                       <div class="input-group mb-2">
-                          <span class="input-group-text" id="basic-addon1">拜訪時間*</span>
+                          <span class="input-group-text" id="basic-addon1">開始時間*</span>
                           <input name="commuting_time"
                                  type="time"
-                                 class="form-control" placeholder="拜訪時間"
+                                 class="form-control" placeholder="開始時間"
                                  v-model="pick_commuting_detail.time" 
                                  value="<?=date('H:m',time())?>" >
                         </div>
 
+                        <div class="input-group mb-2">
+                          <span class="input-group-text" id="basic-addon1">結束時間*</span>
+                          <input name="commuting_time"
+                                 type="time"
+                                 class="form-control" placeholder="結束時間"
+                                 v-model="pick_commuting_detail.time" 
+                                 value="<?=date('H:m',time())?>" >
+                        </div>
+
+                        <div class="input-group mb-2">
+                          <span class="input-group-text" id="basic-addon1">備註</span>
+                          <textarea name="memo" type="text" class="form-control" placeholder="備註(可換行)" v-model="pick_commuting_detail.memo"></textarea>
+                        </div>
 
 
                     </div>
