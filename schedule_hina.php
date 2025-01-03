@@ -320,7 +320,34 @@ include_once('_ary_mileageLog.php');
                     <span style="font-size:1rem">{{ if_today }}</span>
                 </h3>
             </div>
-            <div class="p-1">
+            <!-- 顯示請假的人 -->
+            <div class="p-0">
+                <table style="background-color:#FFF;width: 100%;">
+                    <tr v-for="comm in pick_commutings"
+                        class="p-1" style="background-color:#FFF;
+                                           border-bottom: 1px solid #f75d5d;"
+                        style="font-size:2rem">
+                        <td class="p-2 text-primary"
+                            style="background-color:#FFF;border: 0px;width: 10%;
+                                   font-size:1.2rem">假別</td>
+                        <td class="py-0 px-2"
+                            style="background-color:#FFF;border: 0px;width: 80%;
+                                  color:#333333;font-size:1.2rem">請假人員(幾點~幾點)</td>
+                        <td class="p-2"
+                            style="background-color:#FFF;border: 0px;width: 10%;
+                                   color:#333333;font-size:1.2rem">
+                           <button class="btn btn-sm btn-outline-primary"
+                                   data-bs-toggle="modal" data-bs-target="#updateCommutingModal"
+                                   style="font-size: small;padding: 2px 4px;cursor: pointer;"
+                                   @click="setUpdateModal(comm.id)">
+                             詳內
+                           </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>   
+             <!--顯示出勤的人 -->
+            <div class="p-0">
                 <table style="background-color:#FFF;width: 100%;">
                     <tr v-for="comm in pick_commutings"
                         class="p-1" style="background-color:#FFF;
@@ -332,7 +359,7 @@ include_once('_ary_mileageLog.php');
                         <td class="py-0 px-1"
                             style="background-color:#FFF;border: 0px;width: 80%;
                                   color:#333333;font-size:1.2rem">{{comm.issue}}@{{comm.location}}({{comm.contact}})</td>
-                        <td class="p-1"
+                        <td class="p-2"
                             style="background-color:#FFF;border: 0px;width: 10%;
                                    color:#333333;font-size:1.2rem">
                            <button class="btn btn-sm btn-outline-primary"
