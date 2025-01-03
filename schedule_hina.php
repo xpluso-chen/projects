@@ -523,7 +523,7 @@ include_once('_ary_mileageLog.php');
                         <span class="input-group-text" id="basic-addon1">請假人員</span>
                         <input type="text" class="form-control" placeholder="請假人員" v-model="pick_commuting_detail.show_name" disabled>
                       </div>
-                      <!--  -->
+                      
                       <div class="input-group mb-2">
                         <span class="input-group-text" id="basic-addon1">假別*</span>
                         <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
@@ -542,9 +542,7 @@ include_once('_ary_mileageLog.php');
                         </ul>
                         <input name="contact" type="text" class="form-control" placeholder="假別" v-model="leave" required>
                      </div>
-                  
-                      <!--  -->
-
+                    
                       <div class="input-group mb-2">
                           <span class="input-group-text" id="basic-addon1">請假日期*</span>
                           <input name="commuting_date"
@@ -580,6 +578,10 @@ include_once('_ary_mileageLog.php');
                         </div>
                         <p id="result">{{ resultMessage }}</p>
 
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                      <input type="submit" class="btn btn-primary" value="確定新增">
                     </div>
                     </form>
                 </div>
