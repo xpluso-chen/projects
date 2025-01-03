@@ -540,7 +540,7 @@ include_once('_ary_mileageLog.php');
                           <ul class="dropdown-menu">
                             <li class="p-2" @click="setOvertime('補休')">補休</li>
                             <li><hr class="dropdown-divider"></li>
-                            <li class="p-2" @click="setOeave('加班費')">加班費</li>
+                            <li class="p-2" @click="setOvertime('加班費')">加班費</li>
                           </ul>
                           <input name="" type="text" class="form-control" placeholder="折換方式" v-model="overtime" required>
                         </div>
@@ -869,7 +869,7 @@ include_once('_ary_mileageLog.php');
                           <ul class="dropdown-menu">
                             <li class="p-2" @click="setOvertime('補休')">補休</li>
                             <li><hr class="dropdown-divider"></li>
-                            <li class="p-2" @click="setOeave('加班費')">加班費</li>
+                            <li class="p-2" @click="setOvertime('加班費')">加班費</li>
                           </ul>
                           <input name="" type="text" class="form-control" placeholder="折換方式" v-model="overtime" required>
                         </div>
