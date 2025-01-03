@@ -745,8 +745,8 @@ include_once('_ary_mileageLog.php');
                 type:false,
                 leave: '' ,// 假別的值
                 pick_commuting_detail: {
-                startTime: '', // 開始時間
-                endTime: ''    // 結束時間
+                    startTime: '', // 開始時間
+                    endTime: ''    // 結束時間
                 },
                 resultMessage: '' // 結果訊息
               },
@@ -858,7 +858,7 @@ include_once('_ary_mileageLog.php');
                     }
                 },
                 setLeave(e) {
-                this.leave = e // 假別
+                    this.leave = e // 假別
                 },
 
                 // 新增計算時間的方法
