@@ -114,6 +114,24 @@ if( $commutings == [] ){
       
       <!-- main block -->
       <div class="py-2 px-1" style="width:100%; background-color: #fffffff0;">
+
+      <!-- 標題和按鈕 -->
+      <p class="mb-1 mt-2 fw-bold fs-2 text-center">請假記錄總表</p>
+      <div class="p-2 mb-2" style="height: 8vh;display:flex;gap:0.5rem;justify-content: center;">
+          <button type="button"
+                  class="btn btn-outline-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="">
+                  下載[選擇的月份]月excel
+          </button>
+          <button type="button"
+                  class="btn btn-outline-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="">
+                  下載今年excel
+          </button>
+      </div>
+
         <!-- 上個月 下個月 -->
         <div style="width:100%;padding: 0px;font-size: medium;position: relative;text-align: center;">
             <a href="leave_list_hina.php?date=<?=$lastDate?>"
@@ -139,12 +157,10 @@ if( $commutings == [] ){
             <?= $error ?>
         </div>
       <?php else : ?>
-        <!-- 請假表單 -->
+        <!-- 會員請假總表 -->
       <div class="table-box" style="width: 100%; display: flex; justify-content: center;">
         <div class="mt-2 py-0 px-0" style="width: 94%; background-color: #ffffff; border: 1px solid #007180;">
-
-            <!-- Bootstrap's table-responsive -->
-            <div class="table-responsive">
+            <div class="">
                 <table class="table table-striped mb-0">
                     <thead class="thead-dark">
                         <tr align="center">
