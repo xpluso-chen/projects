@@ -337,7 +337,7 @@ include_once('_ary_mileageLog.php');
                             style="background-color:#FFF;border: 0px;width: 10%;
                                    color:#333333;font-size:1.2rem">
                            <button class="btn btn-sm btn-outline-primary"
-                                   data-bs-toggle="modal" data-bs-target="#updateOvertimeModal"
+                                   data-bs-toggle="modal" data-bs-target="#updateLeaveModal"
                                    style="font-size: small;padding: 2px 4px;cursor: pointer;"
                                    @click="setUpdateModal(comm.id)">
                              詳內
@@ -812,34 +812,51 @@ include_once('_ary_mileageLog.php');
               </div>
             </div>
         </div>
-        <!-- Update Modal:加班紀錄詳內 -->
-        <div class="modal fade "
-               id="updateOvertimeModal" tabindex="-1" aria-labelledby="updateOvertimeModal" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="updateOvertimeModal">加班記錄詳內</h1>
+        <!-- Update Modal:請假詳內 -->
+        <div class="modal fade " id="updateLeaveModal" tabindex="-1" aria-labelledby="updateLeaveModalLabel" aria-hidden="true">
+           <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="updateLeaveModalLabel">請假紀錄詳內</h1>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <form id="create-project" method="POST" action="">
-                    <input type="hidden" name="" value="">
-                    <input type="hidden" name="" value="<?=$_SESSION['userUuid']?>">
+                </div>
+                <form id="create-project" method="POST" action="">
+                  <input type="hidden" name="exe" value="setCommuting">
+                  <input type="hidden" name="user_uuid" value="<?=$_SESSION['userUuid']?>">
 
-                    <div class="modal-body">
-
+                  <div class="modal-body">
                       <div class="input-group mb-2">
-                        <span class="input-group-text" id="basic-addon1">加班人員</span>
-                        <input type="text" class="form-control" placeholder="加班人員" v-model="pick_commuting_detail.show_name" disabled>
+                        <span class="input-group-text" id="basic-addon1">請假人員</span>
+                        <input type="text" class="form-control" placeholder="請假人員" v-model="pick_commuting_detail.show_name" disabled>
                       </div>
-                                          
+                      
                       <div class="input-group mb-2">
-                          <span class="input-group-text" id="basic-addon1">加班日期*</span>
+                        <span class="input-group-text" id="basic-addon1">假別*</span>
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li class="p-2" @click="setLeave('特休')">特休</li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li class="p-2" @click="setLeave('事假')">事假</li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li class="p-2" @click="setLeave('病假')">病假</li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li class="p-2" @click="setLeave('補休')">補休</li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li class="p-2" @click="setLeave('其他')">其他</li>
+                        </ul>
+                        <input name="" type="text" class="form-control" placeholder="假別" v-model="leave" required>
+                      </div>
+                    
+                      <div class="input-group mb-2">
+                          <span class="input-group-text" id="basic-addon1">請假日期*</span>
                           <input name=""
                                  type="date"
-                                 class="form-control" placeholder="加班日期"
+                                 class="form-control" placeholder="請假日期"
                                  v-model="pick_date"
                                  value="" >
-                        </div>
+                      </div>
 
                       <div class="input-group mb-2">
                           <span class="input-group-text" id="basic-addon1">開始時間*</span>
@@ -849,9 +866,9 @@ include_once('_ary_mileageLog.php');
                                  v-model="pick_commuting_detail.startTime"
                                  @input="calculateHours" 
                                  value="" >
-                        </div>
+                      </div>
 
-                        <div class="input-group mb-2">
+                      <div class="input-group mb-2">
                           <span class="input-group-text" id="basic-addon1">結束時間*</span>
                           <input name=""
                                  type="time"
@@ -859,26 +876,13 @@ include_once('_ary_mileageLog.php');
                                  v-model="pick_commuting_detail.endTime"
                                  @input="calculateHours" 
                                  value="" >
-                        </div>
+                      </div>
 
-                        <div class="input-group mb-2">
-                          <span class="input-group-text" id="basic-addon1">折換方式*</span>
-                          <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                          <span class="visually-hidden">Toggle Dropdown</span>
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li class="p-2" @click="setOvertime('補休')">補休</li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li class="p-2" @click="setOvertime('加班費')">加班費</li>
-                          </ul>
-                          <input name="" type="text" class="form-control" placeholder="折換方式" v-model="overtime" required>
-                        </div>
-
-                        <div class="input-group mb-2">
+                      <div class="input-group mb-2">
                           <span class="input-group-text" id="basic-addon1">備註</span>
                           <textarea name="" type="text" class="form-control" placeholder="備註(可換行)" v-model="pick_commuting_detail.memo"></textarea>
-                        </div>
-                        <p id="result">共計時數:</p>
+                      </div>
+                      <p id="result">{{ resultMessage }}</p>
 
                     </div>
                     <div class="modal-footer">
@@ -890,6 +894,7 @@ include_once('_ary_mileageLog.php');
                 </div>
               </div>
             </div>
+        </div> 
 
 
         <!-- footer -->
