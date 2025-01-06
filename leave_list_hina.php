@@ -32,7 +32,7 @@ if(isset($_POST['exe']) && $_POST['exe']=='updateCommuting') {
 
     $DBTool = new DBTool;
     $DBTool->mainUpdate( 'commutings', 'id', $inAry );
-    header("Location: commuting_list.php?date=".$_POST['commuting_date']);
+    header("Location: leave_list_hina.php?date=".$_POST['commuting_date']);
 } 
 
 // 取得GET
@@ -260,7 +260,7 @@ if( $commutings == [] ){
                           <input name=""
                                  type="time"
                                  class="form-control" placeholder="開始時間"
-                                 v-model="pick_startTime"
+                                 v-model="pick_commuting_detail.startTime"
                                  @input="calculateHours" 
                                  value="" >
                       </div>
@@ -270,7 +270,7 @@ if( $commutings == [] ){
                           <input name=""
                                  type="time"
                                  class="form-control" placeholder="結束時間"
-                                 v-model="pick_endTime"
+                                 v-model="pick_commuting_detail.endTime"
                                  @input="calculateHours" 
                                  value="" >
                       </div>
@@ -292,7 +292,8 @@ if( $commutings == [] ){
               </div>
             </div>
 
-    </div>  <!-- for VUE -->
+    </div> 
+    <!-- for VUE -->
     <!-- footer -->
     <?php include_once('_footer.php') ;?>
 
@@ -328,9 +329,11 @@ if( $commutings == [] ){
             mileage:'',
             type:false,
             leave: '' ,// 假別
-            pick_startTime:'',
-            pick_endTime:'',
-            resultMessage: '', // 結果訊息
+            pick_commuting_detail: {
+                    startTime: '', // 開始時間
+                    endTime: ''    // 結束時間
+                },
+                resultMessage: '' // 結果訊息
           },
           computed: {
               pick_commutings: function () {
@@ -427,15 +430,13 @@ if( $commutings == [] ){
                 }
             },
             setLeave(e) {
-              console.log(e);
-              console.log('有點到選項');
-            this.leave = e; // 設定選擇的假別
+                this.leave = e // 假別
             },
             // 新增計算時間的方法
             calculateHours() {
                 console.log('有觸發計算');
-                const startTime = this.pick_startTime;
-                const endTime = this.pick_endTime;
+                const startTime = this.pick_commuting_detail.startTime;
+                const endTime = this.pick_commuting_detail.endTime;
 
                 if (!startTime || !endTime) {
                     this.resultMessage = "請輸入完整的時間！";
@@ -463,9 +464,10 @@ if( $commutings == [] ){
                 // 轉換為小時
                 const totalHours = timeDiff / (1000 * 60 * 60);
                 this.resultMessage = `共計時數: ${totalHours.toFixed(1)} 小時`;
-                },
-          }
-        });
+                }
+                
+              }
+            });
     </script>
   </body>
 </html>
