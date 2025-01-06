@@ -327,8 +327,10 @@ if( $commutings == [] ){
             contact:'',
             mileage:'',
             type:false,
-            pick_startTime,
-            pick_endTime
+            leave: '' ,// 假別
+            pick_startTime:'',
+            pick_endTime:'',
+            resultMessage: '', // 結果訊息
           },
           computed: {
               pick_commutings: function () {
@@ -425,7 +427,9 @@ if( $commutings == [] ){
                 }
             },
             setLeave(e) {
-                    this.leave = e // 假別
+              console.log(e);
+              console.log('有點到選項');
+            this.leave = e; // 設定選擇的假別
             },
             // 新增計算時間的方法
             calculateHours() {
@@ -459,12 +463,9 @@ if( $commutings == [] ){
                 // 轉換為小時
                 const totalHours = timeDiff / (1000 * 60 * 60);
                 this.resultMessage = `共計時數: ${totalHours.toFixed(1)} 小時`;
-                }
+                },
           }
-        })
-
-        
-
+        });
     </script>
   </body>
 </html>
