@@ -93,27 +93,6 @@ if( $commutings == [] ){
   }
 }
 
-// 取得歷史客戶
-$customerLog = $Commutings->getCustomers($_SESSION['userUuid']);
-$customerJson = json_encode($customerLog);
-
-// 取得 歷史客戶-地點
-$locationLog = $Commutings->getLocations($_SESSION['userUuid']);
-$locationJson = json_encode($locationLog);
-
-// 取得 歷史客戶-聯絡人
-$contactLog = $Commutings->getContacts($_SESSION['userUuid']);
-$contactJson = json_encode($contactLog);
-
-// 取得 歷史地點-里程
-$mileageLog = $Commutings->getMileages($_SESSION['userUuid']);
-$mileageJson = json_encode($mileageLog);
-
-// 取得月補貼額
-
-$Logs = new Logs ;
-$allowances = $Logs->getAllowanceByDate($inDate) ;
-
 ?>
 <!-- CSS -->
 <?php include_once('_css.php') ?>
@@ -132,11 +111,12 @@ $allowances = $Logs->getAllowanceByDate($inDate) ;
       <!-- navbar -->
       <?php include_once('_navbar.php') ?>
 
+      
       <!-- main block -->
       <div class="py-2 px-1" style="width:100%; background-color: #fffffff0;">
         <!-- 上個月 下個月 -->
         <div style="width:100%;padding: 0px;font-size: medium;position: relative;text-align: center;">
-            <a href="commuting_list.php?date=<?=$lastDate?>"
+            <a href="leave_list_hina.php?date=<?=$lastDate?>"
                class="btn btn-sm btn-outline-dark"
                style="font-size:xx-small;position: absolute;left: 0;">
                ←<?=$Tools->getChineseMonthBydate($lastDate)?></a>
@@ -147,7 +127,7 @@ $allowances = $Logs->getAllowanceByDate($inDate) ;
                   
                 <?php endif ?>
             </span>
-            <a href="commuting_list.php?date=<?=$nextDate?>"
+            <a href="leave_list_hina.php?date=<?=$nextDate?>"
                class="btn btn-sm btn-outline-dark"
                style="font-size:xx-small;float: right;position: absolute;right: 0;">
                <?=$Tools->getChineseMonthBydate($nextDate)?>→</a>
@@ -159,306 +139,58 @@ $allowances = $Logs->getAllowanceByDate($inDate) ;
             <?= $error ?>
         </div>
       <?php else : ?>
-        <?php foreach ($showComs as $uuid => $showcom) : ?>
-          <div class="my-2 py-0 px-0"
-               style="width:100%;background-color: #f0f5f9;">
-           <table id="excel-<?=$uuid?>" hidden>
-             <thead>
-               <tr>
-                 <th>#</th>
-                 <th>日期時間</th>
-                 <th>客戶</th>
-                 <th>記錄</th>
-                 <th>里程</th>
-                 <th></th>
-               </tr>
-             </thead>
-             <tbody>
-               <?php $ii=0 ;?>
-               <?php foreach ($showcom as $key => $item) : ?>
-                 <tr>
-                   <td><?=(++$ii)?></td>
-                   <td><?=$item['datetime']?></td>
-                   <td><?=$item['customer']?></td>
-                   <td><?=$item['issue']?>-<?=$item['contact']?>@<?=$item['location']?></td>
-                   <td>
-                     <?php if($item['type']=='cc') : ?>
-                       (公)
-                     <?php else : ?>
-                       <?=$item['mileage']?>
-                     <?php endif ?>
-                   </td>
-                   <td>
-                   </td>
-                 </tr>
-               <?php endforeach ?>
-               <tr>
-                 <td></td>
-                 <td></td>
-                 <td></td>
-                 <td >
-                   累計里程數
-                 </td>
-                 <td><?=$statComs[$uuid]['total']?></td>
-                 <td> km</td>
-               </tr>
-               <tr>
-                 <td></td>
-                 <td></td>
-                 <td></td>
-                 <td>
-                   補貼金額試算
-                 </td>
-                 <td colspan="1">
-                   <?=round($statComs[$uuid]['total']*$allowances) ?>
-                 </td>
-                 <td>元</td>
-               </tr>
-               <tr>
-                 <td></td>
-                 <td></td>
-                 <td></td>
-                 <td></td>
-                 <td>
-                   (每公里補貼 <?=$allowances?> 元)</td>
-                 <td></td>
-               </tr>
-             </tbody>
-           </table>
+        <!-- 請假表單 -->
+      <div class="table-box" style="width: 100%; display: flex; justify-content: center;">
+        <div class="mt-2 py-0 px-0" style="width: 94%; background-color: #ffffff; border: 1px solid #007180;">
 
-            <table class="table table-striped table">
-              <thead class="thead-dark">
-                <tr align="left">
-                  <th scope="col" colspan="6" style="padding:4px 0px">
-                    <div class="p-3" style="font-size:1.2rem;padding-left: 1rem;background-color: #a1d6ed;">
-                      <b><?=$showcom[0]['show_name']?></b>里程統計表
-                      <button class="btn btn-sm btn-outline-dark p-1" onclick="makeExcel('excel-<?=$uuid?>','<?=date('Ym_').$showcom[0]['show_name']?>_里程統計表')">
-                        下載excel
-                      </button>
-                    </div>
-                  </th>
-                </tr>
-                <tr align="left">
-                  <th scope="col">#</th>
-                  <th scope="col" style="padding:4px 0px">時間</th>
-                  <th scope="col" style="padding:4px">客戶</th>
-                  <th scope="col" style="padding:4px 0px">記錄</th>
-                  <th align="right" scope="col" style="padding:4px 0px">里程</th>
-                  <th align="right" scope="col" style="padding:4px 0px">操作</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php $ii=0 ;?>
-                <?php foreach ($showcom as $key => $item) : ?>
-                  <tr>
-                    <th scope="row"><?=(++$ii)?></th>
-                    <td style="padding:4px 0px;width: 3rem;">
-                      <?=substr($item['datetime'],5,5)?>
-                      <br>
-                      <?=substr($item['datetime'],11,5)?>
-                    </td>
-                    <td style="padding:4px"><?=$item['customer']?></td>
-                    <td style="padding:4px 0px">
-                      <span style="">
-                        <?=$item['issue']?>-<?=$item['contact']?>
-                        @<?=$item['location']?>
-                      </span>
-                    </td>
-                    <td align="right" style="padding:4px 4px 0px 0px">
-                      <?php if($item['type']=='cc') : ?>
-                        (公)
-                      <?php else : ?>
-                        <?=$item['mileage']?>
-                      <?php endif ?>
-                    </td>
-                    <td>
-                      <button class="btn btn-sm btn-outline-primary"
-                              data-bs-toggle="modal" data-bs-target="#updateLeaveModal"
-                              style="font-size: small; padding: 2px 4px; cursor: pointer;"
-                              @click="setUpdateModal('<?=$item['id']?>')">
-                        詳內
-                      </button>
-                    </td>
-                  </tr>
-                <?php endforeach ?>
-                <tr style="border-top:solid 2px #111111;">
-                  <td align="right" style="padding:4px 10px 4px 0px" colspan="4">
-                    累計里程數
-                  </td>
-                  <td align="right" style="padding:4px" colspan="1"><?=$statComs[$uuid]['total']?></td>
-                  <td align="" style="padding:4px" colspan="1"> km</td>
-                </tr>
-                <tr style="">
-                  <td align="right" style="padding:4px 10px 4px 0px" colspan="4">
-                    補貼金額試算
-                  </td>
-                  <td align="right" style="padding:4px" colspan="1">
-                    <?=round($statComs[$uuid]['total']*$allowances) ?>
-                  </td>
-                  <td align="" style="padding:4px" colspan="1">元</td>
-                </tr>
-                <tr style="border-top:solid 2px #111111;">
-                  <td align="right" style="padding:4px 0px 4px 0px" colspan="5">
-                    (每公里補貼 <?=$allowances?>
-                  </td>
-                  <td align="" style="padding:4px" colspan="1"> 元)</td>
-                </tr>
-                <?php if(false) :?>
-                  <tr style="" >
-                    <td align="right" style="padding:4px 10px 4px 0px" colspan="4">
-                      (公司車)累計里程
-                    </td>
-                    <td align="right" style="padding:4px 0px" colspan="2">
-                      <?=$statComs[$uuid]['cc']?> km
-                    </td>
-                  </tr>
-                  <tr style="border-top:solid 2px #111111;">
-                    <td align="right" style="padding:4px 10px 4px 0px" colspan="4">
-                      (自用車)累計里程
-                    </td>
-                    <td align="right" style="padding:4px 0px;font-size: 1rem;" colspan="2">
-                      <b>
-                        <?=$statComs[$uuid]['total']-$statComs[$uuid]['cc']?> km
-                      </b>
-                    </td>
-                  </tr>
-                <?php endif?>
-              </tbody>
-            </table>
-          </div>
-        <?php endforeach ?>
-      <?php endif ?>
-
-      <!-- 按鈕 -->
-      <div class="p-2" style="height: 8vh;" hidden>
-          <button type="button"
-                  class="btn btn-outline-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#setCommutingModal"
-                  style="float:right">
-            新增出勤記錄
-          </button>
-      </div>
-    </div>
-
-    
-    <!-- Update Modal -->
-    <div class="modal fade "
-       id="updateCommutingModal" tabindex="-1" aria-labelledby="updateCommutingModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-          <h1 class="modal-title fs-5" id="updateCommutingModalLabel">出勤記錄詳內</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <form id="create-project" method="POST" action="">
-            <input type="hidden" name="exe" value="updateCommuting">
-            <input type="hidden" name="user_uuid" value="<?=$_SESSION['userUuid']?>">
-            <input type="hidden" name="id"
-                   v-model="pick_commuting_detail.id">
-
-            <div class="modal-body">
-
-                <div class="input-group mb-2">
-                    <span class="input-group-text" id="basic-addon1">出勤人員</span>
-                    <input type="text" class="form-control"
-                           placeholder="出勤人員" v-model="pick_commuting_detail.show_name" disabled>
-                </div>
-
-                <div class="input-group mb-2">
-                    <span class="input-group-text" id="basic-addon1">事由*</span>
-                    <input name="issue" type="text" class="form-control"
-                           placeholder="事由" v-model="pick_commuting_detail.issue" required>
-                </div>
-
-                <div class="input-group mb-2">
-                  <span class="input-group-text" id="basic-addon1">廠商/客戶*</span>
-                  <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="visually-hidden">Toggle Dropdown</span>
-                  </button>
-                  <ul class="dropdown-menu">
-                      <?php foreach ($customerLog as $key => $value) : ?>
-                          <li><a class="dropdown-item" href="#"
-                                 @click="setCustomer('<?=$value?>')"><?=$value?></a></li>
-                      <?php endforeach ?>
-                  </ul>
-                  <input name="customer" type="text" class="form-control"
-                         placeholder="廠商/客戶" v-model="pick_commuting_detail.customer" required>
-                </div>
-
-                <!-- 地點 -->
-                <div class="input-group mb-2">
-                  <span class="input-group-text" id="basic-addon1">地點*</span>
-                  <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="visually-hidden">Toggle Dropdown</span>
-                  </button>
-                  <ul class="dropdown-menu">
-                      <li v-for=" location in pick_location ">
-                        <a class="dropdown-item" href="#"
-                                 @click="setLocation(location[1])">{{location[0]}}-{{location[1]}}</a>
-                      </li>
-                  </ul>
-                  <input name="location" type="text" class="form-control"
-                         placeholder="地點" v-model="pick_commuting_detail.location" required>
-                </div>
-
-                <div class="input-group mb-2">
-                  <span class="input-group-text" id="basic-addon1">聯絡人*</span>
-                  <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="visually-hidden">Toggle Dropdown</span>
-                  </button>
-                  <ul class="dropdown-menu">
-                      <li v-for=" contact in pick_contact ">
-                        <a class="dropdown-item" href="#"
-                                 @click="setContact(contact[1])">{{contact[0]}}-{{contact[1]}}</a>
-                      </li>
-                  </ul>
-                  <input name="contact" type="text" class="form-control"
-                         placeholder="聯絡人" v-model="pick_commuting_detail.contact" required>
-                </div>
-
-                <div class="input-group mb-2">
-                  <span class="input-group-text" id="basic-addon1">拜訪日期*</span>
-                  <input name="commuting_date"
-                         type="date"
-                         class="form-control" placeholder="拜訪日期"
-                         v-model="pick_commuting_detail.date" >
-                </div>
-                <div class="input-group mb-2">
-                  <span class="input-group-text" id="basic-addon1">拜訪時間*</span>
-                  <input name="commuting_time"
-                         type="time"
-                         class="form-control" placeholder="拜訪時間"
-                         v-model="pick_commuting_detail.time" 
-                         value="<?=date('H:m',time())?>" >
-                </div>
-
-                <div class="p-2">
-                    <input type="checkbox" id="isComCarUpdate" name="type" value="cc" 
-                           v-model="pick_commuting_detail.type">
-                    <label for="isComCarUpdate">開公司車</label><br>                          
-                </div>
-
-                <div class="input-group mb-2" v-if="!pick_commuting_detail.type">
-                  <span class="input-group-text" id="basic-addon1">里程*</span>
-                  <input name="mileage" type="number" class="form-control"
-                         min="0" max="500" step="0.1"
-                         placeholder="里程" v-model="pick_commuting_detail.mileage" required>
-                </div>
-
-                <div class="input-group mb-2">
-                  <span class="input-group-text" id="basic-addon1">備註</span>
-                  <textarea name="memo" type="text" class="form-control" placeholder="備註(可換行)" v-model="pick_commuting_detail.memo"></textarea>
-                </div>
+            <!-- Bootstrap's table-responsive -->
+            <div class="table-responsive">
+                <table class="table table-striped mb-0">
+                    <thead class="thead-dark">
+                        <tr align="center">
+                            <th scope="col" colspan="5" style="padding: 0px;">
+                                <div class="p-3"
+                                    style="font-size: 1.2rem; background-color: #a1d6ed; text-align: center;">
+                                    <b>[會員暱稱]</b>請假申請
+                                </div>
+                            </th>
+                        </tr>
+                        <tr align="center">
+                            <th scope="col" style="color: #007180;">請假日期</th>
+                            <th scope="col" style="color: #007180;">請假時間</th>
+                            <th scope="col" style="color: #007180;">假別</th>
+                            <th scope="col" style="color: #007180;">時數</th>
+                            <th scope="col" style="color: #007180;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center">[11/12(一)]</td>
+                            <td align="center">[9:00~18:00]</td>
+                            <td align="center"><span>[特休]</span></td>
+                            <td align="center">[8]</td>
+                            <td align="center">
+                                <button data-bs-toggle="modal" data-bs-target="#updateLeaveModal"
+                                    class="btn btn-sm btn-outline-primary" style="font-size: small; cursor: pointer;">
+                                    詳內
+                                </button>
+                            </td>
+                        </tr>
+                        <tr style="border-top: 2px solid #007180;">
+                            <td align="right" class="fw-bold" colspan="3" style="padding-right: 10px;">
+                                本月已請假:
+                            </td>
+                            <td align="center" class="text-danger fw-bold" colspan="1">[8]</td>
+                            <td align="center" class="text-danger fw-bold" colspan="1">小時</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-danger" @click="deleteComm(pick_commuting_detail.id)">刪除</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-              <input type="submit" class="btn btn-primary" value="確定修改">
-            </div>
-          </form>
         </div>
       </div>
+          <!--  -->
+      <?php endif ?>
+
     </div>
 
     <!-- Update Modal:請假詳內 -->
@@ -466,7 +198,7 @@ $allowances = $Logs->getAllowanceByDate($inDate) ;
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="updateLeaveModalLabel">新增請假申請</h1>
+                  <h1 class="modal-title fs-5" id="updateLeaveModalLabel">請假紀錄詳內</h1>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="create-project" method="POST" action="">
